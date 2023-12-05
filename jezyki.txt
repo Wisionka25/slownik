@@ -1,2 +1,27 @@
-tak
-nie
+1 tak
+2 nie
+3 moze
+4 daleko
+5 imie
+6 zwierze
+7 urodziny
+8 kalendarz
+9 miasto
+1 yes
+2 no
+3 maybe
+4 far
+5 name
+6 animal
+7 birthday
+8 calendar
+9 city
+1 ja
+2 nein
+3 vielleicht
+4 weit
+5 name
+6 tier
+7 geburstag
+8 kalender
+9 stadt
