@@ -27,7 +27,8 @@ def entry():
                 if wartosci==slowo:
                     jaki_numer=klucz            #przypisujemy klucz ktory pasuje do wprowadzonego slowa
                 
-                
+    except FileNotFoundError:
+        print("Plik nie istnieje")          
     except Exception as e:
         print(f"Błąd: {e}")
     return jaki_numer
@@ -39,7 +40,6 @@ def entry():
 def dodaj(jaki_numer):
     if jaki_numer!=None:
         slownik2 = ["polski: ","angielski: ","niemiecki:"]
-        i=0
         do_slownika2={}
         try:
             with open('jezyki.txt', 'r') as plik:
@@ -47,13 +47,13 @@ def dodaj(jaki_numer):
                     slowo_w_linii = linia.strip().split()  
                     klucz = int(slowo_w_linii[0])  
                     wartosci = ' '.join(slowo_w_linii[1:])  
-                    slownik[klucz] = wartosci      
-                    i+=1     
+                    slownik[klucz] = wartosci          
                     if klucz == jaki_numer:
-                        #slownik2.insert(i,wartosci)
                         do_slownika2[slownik2.pop(0)] = wartosci
                         if not slownik2:
                             break
+        except FileNotFoundError:
+            print("Plik nie istnieje")      
         except Exception as e:
             print(f"Błąd: {e}")
         for jezyk, do_slownika2 in do_slownika2.items():
