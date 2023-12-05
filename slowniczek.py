@@ -1,13 +1,11 @@
 '''
 Zadanie zaliczeniowe z języka Python
 Imię i nazwisko ucznia: Julia Wisniewska
-Data wykonywania zadania: 01.12.2023 - ???
+Data wykonywania zadania: 01.12.2023 - 06.12.2023
 Treść zadania: Słownik dla trzech języków
-Opis funkcjonalności aplikacji: ???
+Opis funkcjonalności aplikacji: Sprawdzanie poprzez pętle każdej linijki pliku w którym znajdują się słówka, szukanie słowa pasującego do tego podanego przez użytkownika, 
+potem pobieranie klucza i szukanie a następnie wypisanie słówek które mają ten sam klucz.
 '''
-
-from unidecode import unidecode
-
 #Początek aplikacji- menu
 def menu():
     print("********")
@@ -19,14 +17,14 @@ def entry():
     global slownik                                                          #Zmienna slownik ma być zmienną globalną
     slownik = {}                                                            #Stworzenie zmiennej(słownika) slownik
     slowo0 = input("Podaj słowo: ")                                         #Podanie słowa
-    slowo = unidecode(slowo0.lower())                                       #Zmiana liter na małe
+    slowo = slowo0.lower()                                                  #Zmiana liter na małe
     jaki_numer = None                                                       #Sprawdzenie jakie klucze muszą zostać znalezione
     try:                                                                    #Sprawdzanie błędu
         with open('jezyki.txt','r') as plik:                                #Otwarcie pliku
             for linia in plik:                                              #Pętla po każdej linii w pliky .txt
                 slowo_w_linii = linia.strip().split()                       #Usuwa białe znaki i dzieli je
                 klucz = int(slowo_w_linii[0])                               #Zmienia elementu(numer) na klucz
-                wartosci = unidecode(' '.join(slowo_w_linii[1:])).lower()   #Zmiana emelentu(slowa) na wartość w słowniku
+                wartosci = ' '.join(slowo_w_linii[1:]).lower()              #Zmiana emelentu(slowa) na wartość w słowniku
                 slownik[klucz] = wartosci                                   #Dodanie wartosci do kluczy (tworzenie słownika)  
                 if wartosci == slowo:                                       #Sprawdza czy jakaś wartość slownika będzie taka sama jak podane słowo
                     jaki_numer = klucz                                      #Przypisujemy klucz ktory pasuje do wprowadzonego słowa
@@ -64,34 +62,39 @@ def tlumacz(jaki_numer):
     else:
         print("Nie ma takiego słowa")
 
+#Dodanie nowego słowa do pliku Do_dodania.txt
 def dodaj(jaki_numer):
-    if jaki_numer == None:
-        odp=input("Czy chcesz dodać nowe słowo?(n/t): ")
-        odp = odp.lower()
-        if odp =='t':
-            nowe = input("Prosze nam podać jakie słowo chcesz dodać: ")
-            try: 
-                with open("Do_dodania.txt","w") as dodaj:
-                    dodaj.write(f"{nowe} \n")
-            except FileNotFoundError:
-                print("Plik nie znaleziony")
-            except Exception as e:
-                print(f"Błąd: {e}")
+    if jaki_numer == None:                                                  #Jeśli podane słowo nie występuje
+        odp=input("Czy chcesz dodać nowe słowo?(n/t): ")                    
+        odp = odp.lower()                                                   #Zmiana liter na małe
+        if odp in ('t','n'):
+            if odp =='t':                                                       #Jeśli odpowiedz to tak
+                nowe = input("Prosze nam podać jakie słowo chcesz dodać: ")     #Podanie nowego słowa
+                try:                                                            #Sprawdzanie błędu
+                    with open("Do_dodania.txt","a") as dodaj:                   #Otwarcie pliku
+                        dodaj.write(f"{nowe}\n")                                #Dodanie nowego słowa do pliku
+                except FileNotFoundError:                                       #Bład jeśli plik nie został znaleziony
+                    print("Plik nie znaleziony")
+                except Exception as e:                                          #Nieznany błąd
+                    print(f"Błąd: {e}")
+        else:
+           print("Wybierz poprawnie")
 
 #-------------#
 #Główne działania aplikacji
 def main():
     menu()
-    global slownik
-    slownik = {}
+    global slownik                                                              #Słownik jako globalny
+    slownik = {}                                                                #Tworzenie słownika        
     while True:
-        jaki_numer = entry()
-        tlumacz(jaki_numer)
-        dodaj(jaki_numer)
-        koniec = input("Czy chcesz kontynuować? (t/n)")
-        if koniec in ('t','n','T','N'):
-            if koniec != 't' and koniec != 'T':
-                break
+        jaki_numer = entry()                                                    #Pobranie jaki_numer z funkcji zwracającej wartość
+        tlumacz(jaki_numer)                                                     #Funkcja
+        dodaj(jaki_numer)                                                       #Funkcja
+        koniec = input("Czy chcesz kontynuować? (t/n)")     
+        koniec = koniec.lower()                                                 #Zmiana liter na małe
+        if koniec in ('t','n'):                                                 #Czy zawiera znak t/n
+            if koniec != 't':                                                   #Jeśli koniec
+                break                                                           #Przerwij
         else:
             print("Wybierz poprawnie")
 
