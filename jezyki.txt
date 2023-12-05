@@ -1,9 +1,9 @@
 1 tak
 2 nie
-3 moze
+3 może
 4 daleko
-5 imie
-6 zwierze
+5 imię
+6 zwierzę
 7 urodziny
 8 kalendarz
 9 miasto

@@ -5,6 +5,9 @@ Data wykonywania zadania: 01.12.2023 - ???
 Treść zadania: Słownik dla trzech języków
 Opis funkcjonalności aplikacji: ???
 '''
+
+from unidecode import unidecode
+
 #Początek aplikacji- menu
 def menu():
     print("********")
@@ -13,51 +16,51 @@ def menu():
 
 #Działanie aplikacji
 def entry():
-    global slownik                                                      #Zmienna slownik ma być zmienną globalną
-    slownik = {}                                                        #Stworzenie zmiennej(słownika) slownik
-    slowo0 = input("Podaj słowo: ")                                      #Podanie słowa
-    slowo = slowo0.lower()                                               #Zmiana liter na małe
-    jaki_numer = None                                                   #Sprawdzenie jakie klucze muszą zostać znalezione
-    try:                                                                #Sprawdzanie błędu
-        with open('jezyki.txt','r') as plik:                            #Otwarcie pliku
-            for linia in plik:                                          #Pętla po każdej linii w pliky .txt
-                slowo_w_linii = linia.strip().split()                   #Usuwa białe znaki i dzieli je
-                klucz = int(slowo_w_linii[0])                           #Zmienia elementu(numer) na klucz
-                wartosci = ' '.join(slowo_w_linii[1:]).lower()     #Zmiana emelentu(slowa) na wartość w słowniku
-                slownik[klucz] = wartosci                               #Dodanie wartosci do kluczy (tworzenie słownika)  
-                if wartosci == slowo:                                   #Sprawdza czy jakaś wartość slownika będzie taka sama jak podane słowo
-                    jaki_numer = klucz                                  #Przypisujemy klucz ktory pasuje do wprowadzonego słowa
-    except FileNotFoundError:                                           #Bład jeśli plik nie został znaleziony
+    global slownik                                                          #Zmienna slownik ma być zmienną globalną
+    slownik = {}                                                            #Stworzenie zmiennej(słownika) slownik
+    slowo0 = input("Podaj słowo: ")                                         #Podanie słowa
+    slowo = unidecode(slowo0.lower())                                       #Zmiana liter na małe
+    jaki_numer = None                                                       #Sprawdzenie jakie klucze muszą zostać znalezione
+    try:                                                                    #Sprawdzanie błędu
+        with open('jezyki.txt','r') as plik:                                #Otwarcie pliku
+            for linia in plik:                                              #Pętla po każdej linii w pliky .txt
+                slowo_w_linii = linia.strip().split()                       #Usuwa białe znaki i dzieli je
+                klucz = int(slowo_w_linii[0])                               #Zmienia elementu(numer) na klucz
+                wartosci = unidecode(' '.join(slowo_w_linii[1:])).lower()   #Zmiana emelentu(slowa) na wartość w słowniku
+                slownik[klucz] = wartosci                                   #Dodanie wartosci do kluczy (tworzenie słownika)  
+                if wartosci == slowo:                                       #Sprawdza czy jakaś wartość slownika będzie taka sama jak podane słowo
+                    jaki_numer = klucz                                      #Przypisujemy klucz ktory pasuje do wprowadzonego słowa
+    except FileNotFoundError:                                               #Bład jeśli plik nie został znaleziony
         print("Plik nie istnieje")          
-    except Exception as e:                                              #Nieznany błąd
+    except Exception as e:                                                  #Nieznany błąd
         print(f"Błąd: {e}")
-    return jaki_numer                                                   #Zwraca numer klucza
+    return jaki_numer                                                       #Zwraca numer klucza
 
     
     
 
 #Stworzenie słownika(Polski-Angielski-Niemiecki)
 def tlumacz(jaki_numer):                                        
-    if jaki_numer != None:                                              #Sprawdza czy klucz został znaleziony
-        slownik2 = ["polski: ","angielski: ","niemiecki:"]              #Stworzenie listy
-        do_slownika2 = {}                                               #Tworzy słownik do którego elemty listy będą kluczami 
-        try:                                                            #Sprawdzanie błędu
-            with open('jezyki.txt', 'r') as plik:                       #Otwarcie pliku
-                for linia in plik:                                      #Pętla po każdej linii w pliky .txt
-                    slowo_w_linii = linia.strip().split()               #Usuwa białe znaki i dzieli je
-                    klucz = int(slowo_w_linii[0])                       #Zmienia elementu(numer) na klucz
-                    wartosci = ' '.join(slowo_w_linii[1:]).capitalize() #Zmiana emelentu(slowa) na wartość w słowniku
-                    slownik[klucz] = wartosci                           #Dodanie wartosci do kluczy (tworzenie słownika)
-                    if klucz == jaki_numer:                             #Sprawdza czy znaleziony numer klucza jest taki sam jak klucz podanego słowa
-                        do_slownika2[slownik2.pop(0)] = wartosci        #Usuwając pierwszy element listy zapamiętuje go i zapisuje do niego wartość tworząc słownik
-                        if not slownik2:                                #Jeśli słownik pusty
-                            break                                       #Przerwij
-        except FileNotFoundError:                                       #Bład jeśli plik nie został znaleziony
+    if jaki_numer != None:                                                  #Sprawdza czy klucz został znaleziony
+        slownik2 = ["polski: ","angielski: ","niemiecki:"]                  #Stworzenie listy
+        do_slownika2 = {}                                                   #Tworzy słownik do którego elemty listy będą kluczami 
+        try:                                                                #Sprawdzanie błędu
+            with open('jezyki.txt', 'r') as plik:                           #Otwarcie pliku
+                for linia in plik:                                          #Pętla po każdej linii w pliky .txt
+                    slowo_w_linii = linia.strip().split()                   #Usuwa białe znaki i dzieli je
+                    klucz = int(slowo_w_linii[0])                           #Zmienia elementu(numer) na klucz
+                    wartosci = ' '.join(slowo_w_linii[1:]).capitalize()     #Zmiana emelentu(slowa) na wartość w słowniku
+                    slownik[klucz] = wartosci                               #Dodanie wartosci do kluczy (tworzenie słownika)
+                    if klucz == jaki_numer:                                 #Sprawdza czy znaleziony numer klucza jest taki sam jak klucz podanego słowa
+                        do_slownika2[slownik2.pop(0)] = wartosci            #Usuwając pierwszy element listy zapamiętuje go i zapisuje do niego wartość tworząc słownik
+                        if not slownik2:                                    #Jeśli słownik pusty
+                            break                                           #Przerwij
+        except FileNotFoundError:                                           #Bład jeśli plik nie został znaleziony
             print("Plik nie istnieje")      
-        except Exception as e:                                          #Nieznany błąd
+        except Exception as e:                                              #Nieznany błąd
             print(f"Błąd: {e}")
-        for jezyk, do_slownika2 in do_slownika2.items():                #Petla do przypisania kluczy i wartości
-            print(f"{jezyk}: {do_slownika2}")                           #Drukowanie pary klucz-wartość
+        for jezyk, do_slownika2 in do_slownika2.items():                    #Petla do przypisania kluczy i wartości
+            print(f"{jezyk}: {do_slownika2}")                               #Drukowanie pary klucz-wartość
     else:
         print("Nie ma takiego słowa")
 
